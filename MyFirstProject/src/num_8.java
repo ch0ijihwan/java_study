@@ -1,11 +1,10 @@
-package Training_sacnner_0330;
-
 import java.util.Scanner;
 
 public class num_8 {
 
     public static boolean inRect(int x, int y) {
         if ((x >= 100 && x <= 200) && (y >= 100 && y <= 200)) {
+
             return true;
         } else {
             return false;
@@ -23,9 +22,19 @@ public class num_8 {
         int x2 = s.nextInt();
         int y2 = s.nextInt();
 
-        System.out.println(inRect(x1, y1));
-        System.out.println(inRect(x2, y2));
+        boolean point_Check_1;
+        boolean point_Check_2;
 
+
+        point_Check_1 = inRect(x1, y1);
+        point_Check_2 = inRect(x2, y2);
+
+        if (point_Check_1 == true || point_Check_2 == true){
+            System.out.println("두 사각형은 충돌 합니다.");
+        }
+        else{
+            System.out.println("두 사각형은 충돌 하지 않습니다.");
+        }
 
     }
 

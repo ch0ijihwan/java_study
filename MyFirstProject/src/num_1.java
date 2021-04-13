@@ -1,4 +1,3 @@
-package Training_sacnner_0330;
 import java.util.Scanner;
 public class num_1 {
     public static void main(String[] args) {

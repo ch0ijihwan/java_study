@@ -1,4 +1,3 @@
-package Training_sacnner_0330;
 import java.util.Scanner;
 
 

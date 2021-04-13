@@ -1,4 +1,3 @@
-package Training_sacnner_0330;
 import java.util.Scanner;
 
 
@@ -34,10 +33,12 @@ public class num_12_2 {
                     System.out.print("0으로 나눌 수 없습니다.");
                     break;
                 }
+                else {
 
-                result = in_num_1 / in_num_2;
-                System.out.print(in_num_1 + math_Symbol + in_num_2 + "의 계산 결과는 ");
-                System.out.print(result);
+                    result = in_num_1 / in_num_2;
+                    System.out.print(in_num_1 + math_Symbol + in_num_2 + "의 계산 결과는 ");
+                    System.out.print(result);
+                }
             }
 
 

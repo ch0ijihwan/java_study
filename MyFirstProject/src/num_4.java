@@ -1,7 +1,4 @@
-package Training_sacnner_0330;
 import java.util.Scanner;
-
-
 public class num_4 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
