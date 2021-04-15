@@ -1,33 +1,37 @@
-import java.util.Scanner;
 import java.util.Random;
+import java.util.Scanner;
 
 public class num_08 {
     public static void main(String[] args) {
-
-        Scanner sc = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         Random random = new Random();
+        boolean [] check_array;
+        check_array = new boolean[100]; //100개의 배열 생성. 생성시 모든 인덱스에 false가 들어감.
 
-        System.out.print("정수 몇개? ");
-        int input_num = sc.nextInt();
+        System.out.println("정수 몇개?");
+        int input_num = scanner.nextInt();
 
-        int[] array;
-        array = new int[input_num];
-        int count = 0; // 줄바꿈을 하기 위한 변수
-
-        //기본 배열 셋
-        for (int i = 0; i < array.length; i++) {
-            array[i] = random.nextInt(99)+1; //범위가 1부터 100까지 이기 때문에 0~99에 1을 더해준다.
-
-        }
+        int [] array;
+        array = new int [input_num];
 
 
-        while(check_num(array) != true){ // 중복되는 수가 있는지 확인하고, 만약 있다면  배열에 숫자를 다시 배정
-            for (int i = 0; i < array.length; i++) {
-                array[i] = random.nextInt(99)+1;
+        for (int i = 0; i<array.length;i++){
+
+            int temp = random.nextInt(99)+1;
+
+            if(check_array[temp-1]==false){ // 값이 false 경우. 즉, 기존에 넣지 않았을 경우는
+                array[i]=temp;              //값을 넣어줌.
+                check_array[temp-1] = true;
+
             }
+            else{                           // 이미 존재하는 값이 있었다면, 반복문 재실행
+                i--;
+            }
+
         }
 
         //출력 부분
+        int count = 0;
         for (int i = 0; i < array.length; i++) {
 
             System.out.print(array[i] + " ");
@@ -35,23 +39,7 @@ public class num_08 {
             if(count %10 == 0){
                 System.out.println();
             }
-
         }
-
-    }
-
-    static boolean check_num ( int[] numbers){
-        int[] check_pro = new int[100];
-
-        for (int i = 0; i < numbers.length; i++) {
-            check_pro[numbers[i]] = check_pro[numbers[i]] + 1; //만약 존재하는 숫자면, 그 수에 해당하는 인덱스 번호에 1을 추가
-            if (check_pro[numbers[i]] == 2) {// 1을 추가해줬을 시 2가 되었다면, 중복이 되기 때문에 return false;
-                return false;
-            }
-
-
-        }
-        return true;
 
     }
 }
