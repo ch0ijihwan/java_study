@@ -23,6 +23,13 @@ class Rectangle{
         return width*height;
     }
 
+    boolean contains(Rectangle r) {
+        if(x < r.x && y < r.y)
+            if((width+x) > (r.x+r.width) && (height+y) > (r.y+r.height))
+                return true;
+        return false;
+    }
+
 
 }
 
@@ -35,8 +42,8 @@ public class num_4 {
 
         r.show();
         System.out.println("s의 면적은 " + s.square());
-        //if(t.contains(r)) System.out.println("t는 r을 포함합니다.");
-        //if(t.contains(s)) System.out.println("t는 s를 포함합니다.");
+        if(t.contains(r)) System.out.println("t는 r을 포함합니다.");
+        if(t.contains(s)) System.out.println("t는 s를 포함합니다.");
 
     }
 }
