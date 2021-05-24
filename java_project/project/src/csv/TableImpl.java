@@ -5,7 +5,9 @@ import java.util.function.Predicate;
 
 class TableImpl implements Table {
 
-    List<List<String>> values = new ArrayList<List<String>>();
+    List<List<String>> values = new ArrayList<List<String>>(); // 값을 넣어줄 리스트
+
+//    List<ColumnImpl> asd = new ArrayList<ColumnImpl>();
 
     @Override
     public String toString() {
