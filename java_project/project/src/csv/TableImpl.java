@@ -1,11 +1,23 @@
 package csv;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
 
 class TableImpl implements Table {
 
+    List<List<String>> values = new ArrayList<List<String>>();
+
+    @Override
+    public String toString() {
+        return null;
+    }
+
     @Override
     public void print() {
+
+        for (int i = 0; i < this.values.size(); i++) {
+            System.out.println(values.get(i));
+        }
 
     }
 
