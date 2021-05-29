@@ -5,21 +5,53 @@ import java.util.function.Predicate;
 
 class TableImpl implements Table {
 
-    List<List<String>> values = new ArrayList<List<String>>(); // 값을 넣어줄 리스트
+    List<ColumnImpl> col_zip = new ArrayList<ColumnImpl>();
 
-//    List<ColumnImpl> asd = new ArrayList<ColumnImpl>();
+    List<List<String>> values = new ArrayList<List<String>>(); // 값을 넣어줄 리스트
+    List<List<String>> temp_data = new ArrayList<List<String>>(); //print를 사용하기 위한 임시 공간.
+
+    ColumnImpl Head = new ColumnImpl();//헤드 넣어줄 col
+
+    boolean isheader_on = true;
+    int indexCount = 0;
+    int columnsCount = 0;
+    int countDouble, countInt, countString = 0;
+    int null_Count = 0;
+
+
+
+
+
 
     @Override
     public String toString() {
-        return null;
+
+
+//        for(int i = 0; i<col.get(0).values_c.size();i++) {
+//            System.out.println(col.get(0).values_c.get(i));
+//        }
+        indexCount = values.size() - 1;
+
+        return "Table" + "@" + Integer.toHexString(hashCode()) + "\n" +
+
+        "RangeIndex: " + indexCount +" entries, 0 to " + (indexCount-1)+ "\n" +//첫번째 줄
+                "Data columns (total " + columnsCount +"): \n" +
+                " # |        Column | Non-Null Count |Dtype" +"\n"+
+
+                //중간 출력 부분
+
+
+                "dtypes: double("+countDouble +"), int(" + countInt +"), String("+ countString + ")\n";
     }
 
     @Override
     public void print() {
 
-        for (int i = 0; i < this.values.size(); i++) {
-            System.out.println(values.get(i));
-        }
+//        for (int i = 0; i < this.temp_data.size(); i++) {
+//            System.out.println(this.temp_data.get(i));
+//        }
+//
+//        temp_data = values;// 임시 값들을 출력해주고, 다시 원본을 넣어줌.
 
     }
 
