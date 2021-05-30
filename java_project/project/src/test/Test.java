@@ -16,10 +16,10 @@ public class Test {
           Table table = CSVs.createTable(csv, true);
 
 //        2) TableImple의 toString()을 override 한다. //toString은 object의 메소드임. 오버라이드 가능. //file 객체라면  자신의 해당 경로값 리턴.
-//          System.out.println(table);
+          System.out.println(table);
 
 //        3) 테이블을 화면에 출력한다.
- //           table.print();
+            table.print();
 
 //        4) 테이블의 컬럼별 통계량을 출력한다.
 //        table.getStats().print();

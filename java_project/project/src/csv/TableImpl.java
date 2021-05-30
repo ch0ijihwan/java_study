@@ -24,34 +24,50 @@ class TableImpl implements Table {
 
 
     @Override
-    public String toString() {
+    public String toString(){
+        System.out.println("<csv.Table" + "@" + Integer.toHexString(hashCode())+">");
+        if(this.isheader_on == true){
+            System.out.println("RangeIndex: "+(this.temp_data.size()-1) + " entries, 0 to "+ (this.temp_data.size()-2));
+        }
+        else{
+            System.out.println("RangeIndex: "+(this.temp_data.size()-0) + " entries, 0 to "+ (this.temp_data.size()-1));
+        }
+        System.out.println("Data columns (total "+ this.col_zip.size() + " columns):");
 
+        System.out.printf("%4s |%20s | %20s | %8s\n","#","Column", "Non_Null Count", "Dtype");
 
-//        for(int i = 0; i<col.get(0).values_c.size();i++) {
-//            System.out.println(col.get(0).values_c.get(i));
-//        }
-        indexCount = values.size() - 1;
+        int cnt_d = 0, cnt_s =0, cnt_i =0;
+        for(int i=0; i<col_zip.size(); i++){
+            String temp = Integer.toString(col_zip.get(i).Non_Null_cnt) + " non_null";
+            if(isheader_on == true) {
 
-        return "Table" + "@" + Integer.toHexString(hashCode()) + "\n" +
-
-        "RangeIndex: " + indexCount +" entries, 0 to " + (indexCount-1)+ "\n" +//첫번째 줄
-                "Data columns (total " + columnsCount +"): \n" +
-                " # |        Column | Non-Null Count |Dtype" +"\n"+
-
-                //중간 출력 부분
-
-
-                "dtypes: double("+countDouble +"), int(" + countInt +"), String("+ countString + ")\n";
+                System.out.printf("%4s |%20s | %20s | %8s\n", i, this.Head.header.get(i), temp, col_zip.get(i).Data_Type);
+            }
+            else{
+                System.out.printf("%4s |%20s | %20s | %8s\n", i, col_zip.get(i).datas.get(0), temp, col_zip.get(i).Data_Type);
+            }
+            if(this.col_zip.get(i).Data_Type.equals("String")){
+                cnt_s++;
+            }
+            else if(this.col_zip.get(i).Data_Type.equals("double")){
+                cnt_d++;
+            }
+            else if(this.col_zip.get(i).Data_Type.equals("int")){
+                cnt_i++;
+            }
+        };
+        System.out.printf("dtypes: double(%d), int(%d), String(%d)\n", cnt_d, cnt_i, cnt_s);
+        return "";
     }
 
     @Override
     public void print() {
 
-//        for (int i = 0; i < this.temp_data.size(); i++) {
-//            System.out.println(this.temp_data.get(i));
-//        }
-//
-//        temp_data = values;// 임시 값들을 출력해주고, 다시 원본을 넣어줌.
+        for (int i = 0; i < this.temp_data.size(); i++) {
+            System.out.println(this.temp_data.get(i));
+        }
+
+        temp_data = values;// 임시 값들을 출력해주고, 다시 원본을 넣어줌.
 
     }
 

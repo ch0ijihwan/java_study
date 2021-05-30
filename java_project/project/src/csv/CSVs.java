@@ -51,12 +51,14 @@ public class CSVs {
 
                     String array[] = line.split(",");
                     header_count = 1;
-                    col.header = Arrays.asList(array);
+
 
                     tmpList = Arrays.asList(array);
-                    ta.temp_data.add(tmpList);
 
 
+                        for(int i = 0 ; i<array.length;i++){
+                            ta.Head.header.add(array[i]);
+                        }
                 } else {
 
                     String tmp = line.substring((int) line.indexOf('"'), (int) line.lastIndexOf('"'));
@@ -76,7 +78,7 @@ public class CSVs {
 
                     //배열에서 리스트 반환
                     tmpList = Arrays.asList(array);
-                    ta.temp_data.add(tmpList); //이게 맞나?
+                    ta.temp_data.add(tmpList);
 
                 }
             }
@@ -102,7 +104,7 @@ public class CSVs {
             for(int j=0; j< ta.temp_data.size() ; j++){
                 c.datas.add(ta.temp_data.get(j).get(i));
             }
-            System.out.println(c.datas);
+           // System.out.println(c.datas);
 
             c.check_type(c);
             c.check_non_null_cnt(c);

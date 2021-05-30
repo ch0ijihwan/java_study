@@ -44,13 +44,17 @@ class ColumnImpl implements Column{
         col.Data_Type = "int";
         try{
             for(int i =0; i<col.datas.size(); i++){ // 데이터의 길이 만큼. (열의 개수)
-                if(col.datas.get(i).equals(""))continue;
+                if(col.datas.get(i).equals("")){
+                    continue;
+                }
                 Integer.parseInt(col.datas.get(i));
             }
         } catch (NumberFormatException e){ //정수가 아닐 때.
             try{
                 for(int i=0; i<col.datas.size(); i++){
-                    if(col.datas.get(i).equals(""))continue;
+                    if(col.datas.get(i).equals("")){
+                        continue;
+                    }
                     Double.parseDouble(col.datas.get(i));
                 }
                 col.Data_Type ="double";
