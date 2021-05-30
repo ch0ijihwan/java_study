@@ -1,5 +1,6 @@
 package csv;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -14,10 +15,6 @@ class TableImpl implements Table {
     ColumnImpl Head = new ColumnImpl();//헤드 넣어줄 col
 
     boolean isheader_on = true;
-    int indexCount = 0;
-    int columnsCount = 0;
-    int countDouble, countInt, countString = 0;
-    int null_Count = 0;
 
 
     @Override
@@ -66,75 +63,123 @@ class TableImpl implements Table {
         return blank;
     }
 
-    void print_hedar() {
-        int width = 0;
 
-        for (int j = 0; j < Head.header.size(); j++) {
-
-
-            width = Head.header.get(j).length();
+    int count_blank(int t) {
+        int blank = 0;
 
 
-            for (int i = 0; i < col_zip.get(j).datas.size(); i++) {
+        if (this.isheader_on) {
 
-                if (width < col_zip.get(j).datas.get(i).length()) {
-                    width = col_zip.get(j).datas.get(i).length();
+
+            for (int i = 0; i < col_zip.get(t).datas.size(); i++) {
+                try {
+                    if (blank < col_zip.get(t).datas.get(i).length() || blank < Head.header.get(t).length()) { //header의 값과 col데이터 테이블 각을 각각 비교 해서  둘중 큰 것을 리턴.
+                        if (col_zip.get(t).datas.get(i).length() < Head.header.get(t).length())
+                            blank = Head.header.get(t).length();
+                        else {
+                            blank = col_zip.get(t).datas.get(i).length();
+                        }
+                    }
+                }
+                catch (NullPointerException e){
+
+
+
+
                 }
             }
-            width = width - Head.header.get(j).length();
+            return blank;
+        } else {
+            for (int i = 0; i < col_zip.get(t).datas.size(); i++) {
+                if (blank < col_zip.get(t).datas.get(i).length()) { //header의 값과 col데이터 테이블 각을 각각 비교 해서  둘중 큰 것을 리턴.
 
-            String blank = make_blank(width);
-
-
-            System.out.printf("%s%s |", blank, Head.header.get(j));
-        }
-        System.out.println();
-    }
-
-
-
-    int blank_cnt(int t){
-        int blank =0;
-
-
-
-        for(int i=0; i<col_zip.get(t).datas.size(); i++){
-            if(blank < col_zip.get(t).datas.get(i).length()){
-                blank =col_zip.get(t).datas.get(i).length();
+                    blank = col_zip.get(t).datas.get(i).length();
+                }
             }
+            return blank;
+
         }
-        return blank;
     }
-
-
-
 
 
     @Override
     public void print() {
-
-
-
-
-        if (isheader_on == true) {
-
-            print_hedar();
-
-        }
-        for (int j = 0; j < col_zip.get(0).datas.size(); j++) {
-            for (int i = 0; i < col_zip.size(); i++) {
-                int t = blank_cnt(i);
-                t = t - col_zip.get(i).datas.get(j).length();
+//        if(this.isheader_on == true) {
+//            for (int i = 0; i < col_zip.size(); i++) {
+//                col_zip.get(i).print_Head(i);
+//            }
+//            System.out.println();
+//        }
+//
+//        for(int i=0; i<col_zip.get(0).datas.size(); i++){
+//            for(int j=0; j<col_zip.size(); j++) {
+//                col_zip.get(j).print(i);
+//            }
+//            System.out.println();
+//        }
+        if (this.isheader_on == true) {
+            for (int j = 0; j < Head.header.size(); j++) {
+                int t = count_blank(j);
+                t = t - Head.header.get(j).length();
                 String blank = make_blank(t);
 
-                System.out.printf("%s%s |", blank, col_zip.get(i).datas.get(j));
+
+                System.out.printf(" %s%s |", blank, Head.header.get(j));
             }
+
             System.out.println();
+
+            for (int j = 0; j < col_zip.get(0).datas.size(); j++) {
+                for (int i = 0; i < col_zip.size(); i++) {
+                    int t = count_blank(i);
+                    try {
+                        t = t - col_zip.get(i).datas.get(j).length();
+                    }
+                    catch (NullPointerException e){
+                            t = t-4;
+                    }
+
+                    String blank = make_blank(t);
+
+                    if (col_zip.get(i).datas.get(j) == null && Head.header.get(i).length() < 4) {
+
+                        System.out.printf(" %s%s |", blank, "null");
+
+                    } else if (col_zip.get(i).datas.get(j) == null && Head.header.get(i).length() > 4) {
+
+                        try {
+                            System.out.printf(" %s%s |", blank.substring(0, blank.length()), "null");
+                        }
+                        catch (StringIndexOutOfBoundsException w){
+
+                        }
+                    } else {
+
+                        System.out.printf(" %s%s |", blank, col_zip.get(i).datas.get(j));
+                    }
+                }
+                System.out.println();
+            }
+        } else {
+            for (int j = 1; j < col_zip.get(0).datas.size(); j++) {
+                for (int i = 0; i < col_zip.size(); i++) {
+                    int t = count_blank(i);
+                    t = t - col_zip.get(i).datas.get(j).length();
+                    String blank = make_blank(t);
+                    System.out.printf("% s%s |", blank, col_zip.get(i).datas.get(j));
+                }
+                System.out.println();
+            }
         }
+
+
     }
+
+
 
     @Override
     public Table getStats() {
+
         return null;
     }
 

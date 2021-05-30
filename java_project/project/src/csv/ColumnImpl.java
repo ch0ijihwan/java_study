@@ -3,9 +3,9 @@ package csv;
 import java.util.ArrayList;
 import java.util.List;
 
-class ColumnImpl implements Column{
+class ColumnImpl implements Column {
 
-
+    String str_header =null;
 
     List<String> header = new ArrayList<>();
 
@@ -18,50 +18,112 @@ class ColumnImpl implements Column{
     int Non_Null_cnt;
 
 
-    void make_Header_Column(TableImpl ta){ //헤더를 뽑아서 ta안에 있는 head(col객체).datas(데이터 넣는 곳)에 추가.
-        for(int i=0; i<ta.temp_data.get(0).size(); i++){
+    void make_Header_Column(TableImpl ta) { //헤더를 뽑아서 ta안에 있는 head(col객체).datas(데이터 넣는 곳)에 추가.
+        for (int i = 0; i < ta.temp_data.get(0).size(); i++) {
             ta.Head.datas.add(ta.temp_data.get(0).get(i));
         }
     }
 
-    void check_non_null_cnt(ColumnImpl c){
+    void print_Head(int t){
+        int cnt= getHeader().length();
+        for(int i=0; i<count(); i++){
+            try{
+                if(cnt < getValue(i).length()){
+                    cnt = getValue(i).length();
+                }
+            }
+            catch (NullPointerException e){
+                cnt =cnt;
+            }
+        }
+
+        try {
+            cnt = cnt - getHeader().length();
+        } catch (NullPointerException e){
+            cnt = cnt -4;
+        }
+
+        String blank ="";
+
+        for(int i=0; i<cnt; i++){
+            blank +=" ";
+        }
+        System.out.printf("%s%s |", blank,getHeader());
+    }
+    void print(int t){
+        int cnt= getHeader().length();
+        for(int i=0; i<count(); i++){
+            try {
+                if (cnt < getValue(i).length()) {
+                    cnt = getValue(i).length();
+                }
+            } catch (NullPointerException e){
+                cnt = cnt;
+            }
+        }
+
+        try {
+            cnt = cnt - getValue(t).length();
+        } catch(NullPointerException e){
+            cnt = cnt -4;
+        }
+
+
+        String blank ="";
+
+        for(int i=0; i<cnt; i++){
+            blank +=" ";
+        }
+
+        System.out.printf("%s%s |", blank,getValue(t));
+    }
+
+
+    void check_non_null_cnt(ColumnImpl c) {
         c.Non_Null_cnt = 0;
 
-        for(int i=0; i<c.datas.size(); i++){
-            if(!c.datas.get(i).equals("") ){
-                c.Non_Null_cnt += 1;
+
+        for (int i = 0; i < c.datas.size(); i++) {
+            try {
+                if (!c.datas.get(i).equals(null)) {
+                    c.Non_Null_cnt += 1;
+                }
+            }
+            catch(NullPointerException e){
+                continue;
             }
         }
+
+
     }
 
-    void make_head_column(TableImpl ta){
-        for(int i=0; i< ta.temp_data.get(0).size(); i++){
+    void make_head_column(TableImpl ta) {
+        for (int i = 0; i < ta.temp_data.get(0).size(); i++) {
             ta.Head.datas.add(ta.temp_data.get(0).get(i));
         }
     }
 
-    void check_type(ColumnImpl col){
-        col.Data_Type = "int";
-        try{
-            for(int i =0; i<col.datas.size(); i++){ // 데이터의 길이 만큼. (열의 개수)
-                if(col.datas.get(i).equals("")){
-                    continue;
-                }
-                Integer.parseInt(col.datas.get(i));
+    String check_type(ColumnImpl column) {
+        String type = "int";
+        try {
+            for (int i = 0; i < datas.size(); i++) {
+                Integer.parseInt(datas.get(i));
             }
-        } catch (NumberFormatException e){ //정수가 아닐 때.
-            try{
-                for(int i=0; i<col.datas.size(); i++){
-                    if(col.datas.get(i).equals("")){
-                        continue;
+        } catch (NumberFormatException e) {
+            try {
+                for (int i = 0; i < datas.size(); i++) {
+                    try {
+                        Double.parseDouble(datas.get(i));
+                    } catch (NullPointerException n) {
+
                     }
-                    Double.parseDouble(col.datas.get(i));
                 }
-                col.Data_Type ="double";
-            }catch (NumberFormatException e2){
-                col.Data_Type ="String"; //정수형 더블 둘다 아니면 스트링임.
+                type = "double";
+            } catch (NumberFormatException e2) {
+                type = "String";
             }
         }
+        return type;
     }
 
 
@@ -72,7 +134,7 @@ class ColumnImpl implements Column{
 
     @Override
     public String getValue(int index) {
-        return null;
+        return this.datas.get(index);
     }
 
     @Override
@@ -82,6 +144,7 @@ class ColumnImpl implements Column{
 
     @Override
     public void setValue(int index, String value) {
+        this.datas.set(index,value);
 
     }
 
@@ -92,11 +155,12 @@ class ColumnImpl implements Column{
 
     @Override
     public int count() {
-        return 0;
+        return this.datas.size();
     }
 
     @Override
     public void print() {
+
 
     }
 

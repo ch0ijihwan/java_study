@@ -56,10 +56,15 @@ public class CSVs {
                     tmpList = Arrays.asList(array);
 
 
-                        for(int i = 0 ; i<array.length;i++){
-                            ta.Head.header.add(array[i]);
-                        }
+                    for (int i = 0; i < array.length; i++) {
+                        ta.Head.header.add(array[i]);
+                    }
+
                 } else {
+
+                }
+
+                try {
 
                     String tmp = line.substring((int) line.indexOf('"'), (int) line.lastIndexOf('"'));
                     tmp = tmp.replace(',', '|');
@@ -68,11 +73,17 @@ public class CSVs {
                             + line.substring(line.lastIndexOf('"') + 1);
 
 
-                    String array[] = line.split(",",-1);
+                    String array[] = line.split(",", -1);
 
 
                     for (int i = 0; i < array.length; i++) {
                         array[i] = array[i].replace('|', ',');
+                    }
+                    for (int i = 0; i < array.length; i++) {
+
+                        if(array[i] ==""){
+                            array[i]=null;
+                        }
                     }
 
 
@@ -81,7 +92,13 @@ public class CSVs {
                     ta.temp_data.add(tmpList);
 
                 }
+                catch(StringIndexOutOfBoundsException a){
+
+
+                }
             }
+
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -101,7 +118,7 @@ public class CSVs {
             ColumnImpl c = new ColumnImpl();
 
 
-            for(int j=0; j< ta.temp_data.size() ; j++){
+            for (int j = 0; j < ta.temp_data.size(); j++) {
                 c.datas.add(ta.temp_data.get(j).get(i));
             }
 
@@ -111,6 +128,10 @@ public class CSVs {
             c.check_non_null_cnt(c);
             ta.col_zip.add(c);
         }
+
+
+
+
 
 
         return ta;
