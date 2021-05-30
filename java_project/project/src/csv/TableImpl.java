@@ -1,4 +1,5 @@
 package csv;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -19,56 +20,117 @@ class TableImpl implements Table {
     int null_Count = 0;
 
 
-
-
-
-
     @Override
-    public String toString(){
-        System.out.println("<csv.Table" + "@" + Integer.toHexString(hashCode())+">");
-        if(this.isheader_on == true){
-            System.out.println("RangeIndex: "+(this.temp_data.size()-1) + " entries, 0 to "+ (this.temp_data.size()-2));
+    public String toString() {
+        System.out.println("<csv.Table" + "@" + Integer.toHexString(hashCode()) + ">");
+        if (this.isheader_on == true) {
+            System.out.println("RangeIndex: " + (this.temp_data.size()) + " entries, 0 to " + (this.temp_data.size() - 1));
+        } else {
+            System.out.println("RangeIndex: " + (this.temp_data.size() - 0) + " entries, 0 to " + (this.temp_data.size() - 1));
         }
-        else{
-            System.out.println("RangeIndex: "+(this.temp_data.size()-0) + " entries, 0 to "+ (this.temp_data.size()-1));
-        }
-        System.out.println("Data columns (total "+ this.col_zip.size() + " columns):");
+        System.out.println("Data columns (total " + this.col_zip.size() + " columns):");
 
-        System.out.printf("%4s |%20s | %20s | %8s\n","#","Column", "Non_Null Count", "Dtype");
+        System.out.printf("%4s |%20s | %20s | %8s\n", "#", "Column", "Non_Null Count", "Dtype");
 
-        int cnt_d = 0, cnt_s =0, cnt_i =0;
-        for(int i=0; i<col_zip.size(); i++){
+        int cnt_d = 0, cnt_s = 0, cnt_i = 0;
+        for (int i = 0; i < col_zip.size(); i++) {
             String temp = Integer.toString(col_zip.get(i).Non_Null_cnt) + " non_null";
-            if(isheader_on == true) {
+            if (isheader_on == true) {
 
                 System.out.printf("%4s |%20s | %20s | %8s\n", i, this.Head.header.get(i), temp, col_zip.get(i).Data_Type);
-            }
-            else{
+            } else {
                 System.out.printf("%4s |%20s | %20s | %8s\n", i, col_zip.get(i).datas.get(0), temp, col_zip.get(i).Data_Type);
             }
-            if(this.col_zip.get(i).Data_Type.equals("String")){
+            if (this.col_zip.get(i).Data_Type.equals("String")) {
                 cnt_s++;
-            }
-            else if(this.col_zip.get(i).Data_Type.equals("double")){
+            } else if (this.col_zip.get(i).Data_Type.equals("double")) {
                 cnt_d++;
-            }
-            else if(this.col_zip.get(i).Data_Type.equals("int")){
+            } else if (this.col_zip.get(i).Data_Type.equals("int")) {
                 cnt_i++;
             }
-        };
+        }
+        ;
         System.out.printf("dtypes: double(%d), int(%d), String(%d)\n", cnt_d, cnt_i, cnt_s);
         return "";
     }
 
+
+    String make_blank(int w) {
+
+        String blank = "";
+
+        for (int i = 0; i < w; i++) {
+            blank = blank + " ";
+        }
+
+        return blank;
+    }
+
+    void print_hedar() {
+        int width = 0;
+
+        for (int j = 0; j < Head.header.size(); j++) {
+
+
+            width = Head.header.get(j).length();
+
+
+            for (int i = 0; i < col_zip.get(j).datas.size(); i++) {
+
+                if (width < col_zip.get(j).datas.get(i).length()) {
+                    width = col_zip.get(j).datas.get(i).length();
+                }
+            }
+            width = width - Head.header.get(j).length();
+
+            String blank = make_blank(width);
+
+
+            System.out.printf("%s%s |", blank, Head.header.get(j));
+        }
+        System.out.println();
+    }
+
+
+
+    int blank_cnt(int t){
+        int blank =0;
+
+
+
+        for(int i=0; i<col_zip.get(t).datas.size(); i++){
+            if(blank < col_zip.get(t).datas.get(i).length()){
+                blank =col_zip.get(t).datas.get(i).length();
+            }
+        }
+        return blank;
+    }
+
+
+
+
+
     @Override
     public void print() {
 
-        for (int i = 0; i < this.temp_data.size(); i++) {
-            System.out.println(this.temp_data.get(i));
+
+
+
+        if (isheader_on == true) {
+
+            print_hedar();
+
         }
+        for (int j = 0; j < col_zip.get(0).datas.size(); j++) {
+            for (int i = 0; i < col_zip.size(); i++) {
+                int t = blank_cnt(i);
+                t = t - col_zip.get(i).datas.get(j).length();
+                String blank = make_blank(t);
 
-        temp_data = values;// 임시 값들을 출력해주고, 다시 원본을 넣어줌.
-
+                System.out.printf("%s%s |", blank, col_zip.get(i).datas.get(j));
+            }
+            System.out.println();
+        }
     }
 
     @Override
