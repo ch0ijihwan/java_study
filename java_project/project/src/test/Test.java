@@ -19,11 +19,11 @@ public class Test {
           System.out.println(table);
 
 //        3) 테이블을 화면에 출력한다.
-          table.print();
+//          table.print();
 
 //        4) 테이블의 컬럼별 통계량을 출력한다.
-    //        table.getStats().print();
-            table.getStats();
+//            table.getStats().print();
+//               table.getStats();
 
 //        5) 처음 5줄 출력 (새 테이블)
 //        table.head().print();
@@ -51,14 +51,14 @@ public class Test {
 //        System.out.println("identity test for selectRows(range): " + (table.equals(anotherTable) ? "Fail" : "Pass"));
 
 //        10) 지정한 행 인덱스로만 구성된 서브테이블을 얻는다. (새 테이블)
-//        table.selectRowsAt(654, 829, 10, 99).print();
-//        anotherTable = table.selectRowsAt(654, 829);
-//        System.out.println("identity test for selectRowsAt(indices): " + (table.equals(anotherTable) ? "Fail" : "Pass"));
+//            table.selectRowsAt(654, 829, 10, 99).print();
+//            anotherTable = table.selectRowsAt(654, 829);
+//            System.out.println("identity test for selectRowsAt(indices): " + (table.equals(anotherTable) ? "Fail" : "Pass"));
 
 //        11) 지정한 열 인덱스 범위(begin<=, <end)의 서브테이블을 얻는다. (새 테이블)
-//        table.selectColumns(0, 4).print();
-//        anotherTable = table.selectColumns(0, 4);
-//        System.out.println("identity test for selectColumns(range): " + (table.equals(anotherTable) ? "Fail" : "Pass"));
+//            table.selectColumns(0, 4).print();
+//            anotherTable = table.selectColumns(0, 4);
+//            System.out.println("identity test for selectColumns(range): " + (table.equals(anotherTable) ? "Fail" : "Pass"));
 
 //        10) 지정한 열 인덱스로만 구성된 서브테이블을 얻는다. (새 테이블)
 //        table.selectColumnsAt(4, 5, 3).print();
@@ -66,9 +66,9 @@ public class Test {
 //        System.out.println("identity test for selectColumnsAt(indices): " + (table.equals(anotherTable) ? "Fail" : "Pass"));
 
 //        11) 테이블을 기준 열인덱스(3)로 정렬한다. 이 때, 오름차순(true), null값은 나중에(false)(원본 테이블 정렬)
-//        table.sort(5, true, false).print();
-//        anotherTable = table.sort(5, true, false);
-//        System.out.println("identity test for sort(index, asc, nullOrder): " + (!table.equals(anotherTable) ? "Fail" : "Pass"));
+        table.sort(5, true, false).print();
+        anotherTable = table.sort(5, true, false);
+        System.out.println("identity test for sort(index, asc, nullOrder): " + (!table.equals(anotherTable) ? "Fail" : "Pass"));
 
 //        12) 테이블을 기준 열인덱스(3)로 정렬한다. 이 때, 내림차순(false), null값은 앞에(true)(새 테이블)
 //        CSVs.sort(table, 10, false, true).print();

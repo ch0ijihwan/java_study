@@ -106,12 +106,13 @@ class ColumnImpl implements Column {
     String check_type(ColumnImpl column) {
         String type = "int";
         try {
-            for (int i = 0; i < datas.size(); i++) {
-                Integer.parseInt(datas.get(i));
+            for (int i = 0; i < this.datas.size(); i++) {
+                Integer.parseInt(this.datas.get(i));
+
             }
         } catch (NumberFormatException e) {
             try {
-                for (int i = 0; i < datas.size(); i++) {
+                for (int i = 0; i < this.datas.size(); i++) {
                     try {
                         Double.parseDouble(datas.get(i));
                     } catch (NullPointerException n) {

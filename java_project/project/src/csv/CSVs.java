@@ -120,11 +120,12 @@ public class CSVs {
 
             for (int j = 0; j < ta.temp_data.size(); j++) {
                 c.datas.add(ta.temp_data.get(j).get(i));
+
             }
 
             System.out.println(c.datas);
 
-            c.check_type(c);
+            c.Data_Type = c.check_type(c);
             c.check_non_null_cnt(c);
             ta.col_zip.add(c);
         }

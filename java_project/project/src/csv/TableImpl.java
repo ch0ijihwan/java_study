@@ -2,6 +2,7 @@ package csv;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -65,7 +66,7 @@ class TableImpl implements Table {
 
 
     int count_blank(int t) {
-        int blank = 0;
+        int blank = 4; // 블랭크가 너무 작을 경우를 방지.
 
 
         if (this.isheader_on) {
@@ -104,19 +105,7 @@ class TableImpl implements Table {
 
     @Override
     public void print() {
-//        if(this.isheader_on == true) {
-//            for (int i = 0; i < col_zip.size(); i++) {
-//                col_zip.get(i).print_Head(i);
-//            }
-//            System.out.println();
-//        }
-//
-//        for(int i=0; i<col_zip.get(0).datas.size(); i++){
-//            for(int j=0; j<col_zip.size(); j++) {
-//                col_zip.get(j).print(i);
-//            }
-//            System.out.println();
-//        }
+
         if (this.isheader_on == true) {
             for (int j = 0; j < Head.header.size(); j++) {
                 int t = count_blank(j);
@@ -185,42 +174,251 @@ class TableImpl implements Table {
 
     @Override
     public Table head() {
-        return null;
+
+       TableImpl n_table = new TableImpl();
+
+       n_table.Head.header = this.Head.header;
+
+
+       List <String> temp = new ArrayList();
+
+
+
+
+       for(int i = 0; i<this.col_zip.size();i++){
+
+           ColumnImpl c = new ColumnImpl();
+
+           for(int j =0;j<5;j++) {
+
+
+               c.datas.add(this.col_zip.get(i).datas.get(j));
+
+           }
+           n_table.col_zip.add(c);
+
+
+
+       }
+
+        return n_table;
     }
 
     @Override
     public Table head(int lineCount) {
-        return null;
+        TableImpl n_table = new TableImpl();
+
+        n_table.Head.header = this.Head.header;
+
+
+        List <String> temp = new ArrayList();
+
+
+
+
+        for(int i = 0; i<this.col_zip.size();i++){
+
+            ColumnImpl c = new ColumnImpl();
+
+            for(int j =0;j<lineCount;j++) {
+
+
+                c.datas.add(this.col_zip.get(i).datas.get(j));
+
+            }
+            n_table.col_zip.add(c);
+
+
+
+        }
+
+        return n_table;
+
     }
 
     @Override
     public Table tail() {
-        return null;
+        TableImpl n_table = new TableImpl();
+
+        n_table.Head.header = this.Head.header;
+
+
+        List <String> temp = new ArrayList();
+
+
+
+
+        for(int i = 0; i<this.col_zip.size();i++){
+
+            ColumnImpl c = new ColumnImpl();
+
+            for(int j =5;j>0;j--) {
+
+
+                c.datas.add(this.col_zip.get(i).datas.get(this.col_zip.get(0).datas.size()-j));
+
+            }
+            n_table.col_zip.add(c);
+
+
+
+        }
+
+        return n_table;
     }
 
     @Override
     public Table tail(int lineCount) {
-        return null;
+        TableImpl n_table = new TableImpl();
+
+        n_table.Head.header = this.Head.header;
+
+
+        List <String> temp = new ArrayList();
+
+
+
+
+        for(int i = 0; i<this.col_zip.size();i++){
+
+            ColumnImpl c = new ColumnImpl();
+
+            for(int k = lineCount;k>0;k = k - 1) {
+
+
+                c.datas.add(this.col_zip.get(i).datas.get(this.col_zip.get(0).datas.size()-k));
+
+            }
+
+            n_table.col_zip.add(c);
+
+
+
+        }
+
+        return n_table;
     }
 
     @Override
     public Table selectRows(int beginIndex, int endIndex) {
-        return null;
+        TableImpl n_table = new TableImpl();
+        n_table.Head.header = this.Head.header;
+        List <String> temp = new ArrayList();
+
+        for(int i = 0; i<this.col_zip.size();i++){
+
+            ColumnImpl c = new ColumnImpl();
+
+            for(int j =beginIndex;j<endIndex;j++) {
+                c.datas.add(this.col_zip.get(i).datas.get(beginIndex+j));
+
+            }
+            n_table.col_zip.add(c);
+
+
+
+        }
+
+        return n_table;
+
     }
 
     @Override
     public Table selectRowsAt(int... indices) {
-        return null;
+        TableImpl n_table = new TableImpl();
+
+        n_table.Head.header = this.Head.header;
+
+        List <String> temp = new ArrayList();
+
+
+        for(int i = 0; i<this.col_zip.size();i++){
+
+            ColumnImpl c = new ColumnImpl();
+
+            for(int j =0;j<indices.length;j++) {
+
+                c.datas.add(this.col_zip.get(i).datas.get(indices[j]-1));
+
+            }
+            n_table.col_zip.add(c);
+
+        }
+
+        return n_table;
     }
 
     @Override
     public Table selectColumns(int beginIndex, int endIndex) {
-        return null;
+        TableImpl n_table = new TableImpl();
+
+        //헤드 지정
+
+        for(int i = beginIndex;i<endIndex;i++){
+
+            n_table.Head.header.add(this.Head.header.get(i));
+        }
+
+
+
+
+
+        for(int j =beginIndex;j<endIndex;j++) {
+
+            ColumnImpl c = new ColumnImpl();
+
+            for(int k = beginIndex ; k<this.col_zip.get(j).datas.size();k++){ //891번
+
+                try {
+                    c.datas.add(new String(col_zip.get(j).getValue(k)));
+                }
+                catch (NullPointerException e){
+                    c.datas.add(null);
+                }
+
+            }
+
+            n_table.col_zip.add(c);
+        }
+
+        return n_table;
     }
+
 
     @Override
     public Table selectColumnsAt(int... indices) {
-        return null;
+        TableImpl n_table = new TableImpl();
+
+        //헤드 지정
+
+        for(int i = 0;i<indices.length;i++){
+
+            n_table.Head.header.add(this.Head.header.get(indices[i]));
+        }
+
+
+
+
+        for(int j =0;j<indices.length;j++) {
+
+            ColumnImpl c = new ColumnImpl();
+
+            for(int k = 0 ; k<20;k++){ //891번
+
+                try {
+                    c.datas.add(new String(col_zip.get(indices[j]).getValue(k)));
+                }
+                catch (NullPointerException e){
+                    c.datas.add(null);
+                }
+
+            }
+
+            n_table.col_zip.add(c);
+        }
+
+        return n_table;
+
     }
 
     @Override
