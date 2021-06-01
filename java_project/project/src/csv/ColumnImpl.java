@@ -1,82 +1,83 @@
 package csv;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 class ColumnImpl implements Column {
 
-    String str_header =null;
+//    String str_header = null;
 
     List<String> header = new ArrayList<>();
 
     List<String> datas = new ArrayList<String>();//col 데이터를 스트링 타입으로 넣어줌.
 
 
-    List<String> col_values = new ArrayList<String>(); // 값을 넣어줄 리스트
+    List<Integer> tmp_index_a = new ArrayList<>();
 
     String Data_Type = ""; //데이터 타입을 반환하기위한 스티링 선언.
     int Non_Null_cnt;
 
 
-    void make_Header_Column(TableImpl ta) { //헤더를 뽑아서 ta안에 있는 head(col객체).datas(데이터 넣는 곳)에 추가.
-        for (int i = 0; i < ta.temp_data.get(0).size(); i++) {
-            ta.Head.datas.add(ta.temp_data.get(0).get(i));
-        }
-    }
-
-    void print_Head(int t){
-        int cnt= getHeader().length();
-        for(int i=0; i<count(); i++){
-            try{
-                if(cnt < getValue(i).length()){
-                    cnt = getValue(i).length();
-                }
-            }
-            catch (NullPointerException e){
-                cnt =cnt;
-            }
-        }
-
-        try {
-            cnt = cnt - getHeader().length();
-        } catch (NullPointerException e){
-            cnt = cnt -4;
-        }
-
-        String blank ="";
-
-        for(int i=0; i<cnt; i++){
-            blank +=" ";
-        }
-        System.out.printf("%s%s |", blank,getHeader());
-    }
-    void print(int t){
-        int cnt= getHeader().length();
-        for(int i=0; i<count(); i++){
-            try {
-                if (cnt < getValue(i).length()) {
-                    cnt = getValue(i).length();
-                }
-            } catch (NullPointerException e){
-                cnt = cnt;
-            }
-        }
-
-        try {
-            cnt = cnt - getValue(t).length();
-        } catch(NullPointerException e){
-            cnt = cnt -4;
-        }
-
-
-        String blank ="";
-
-        for(int i=0; i<cnt; i++){
-            blank +=" ";
-        }
-
-        System.out.printf("%s%s |", blank,getValue(t));
-    }
+//    void make_Header_Column(TableImpl ta) { //헤더를 뽑아서 ta안에 있는 head(col객체).datas(데이터 넣는 곳)에 추가.
+//        for (int i = 0; i < ta.temp_data.get(0).size(); i++) {
+//            ta.Head.datas.add(ta.temp_data.get(0).get(i));
+//        }
+//    }
+//
+//    void print_Head(int t) {
+//        int cnt = getHeader().length();
+//        for (int i = 0; i < count(); i++) {
+//            try {
+//                if (cnt < getValue(i).length()) {
+//                    cnt = getValue(i).length();
+//                }
+//            } catch (NullPointerException e) {
+//                cnt = cnt;
+//            }
+//        }
+//
+//        try {
+//            cnt = cnt - getHeader().length();
+//        } catch (NullPointerException e) {
+//            cnt = cnt - 4;
+//        }
+//
+//        String blank = "";
+//
+//        for (int i = 0; i < cnt; i++) {
+//            blank += " ";
+//        }
+//        System.out.printf("%s%s |", blank, getHeader());
+//    }
+//
+//    void print(int t) {
+//        int cnt = getHeader().length();
+//        for (int i = 0; i < count(); i++) {
+//            try {
+//                if (cnt < getValue(i).length()) {
+//                    cnt = getValue(i).length();
+//                }
+//            } catch (NullPointerException e) {
+//                cnt = cnt;
+//            }
+//        }
+//
+//        try {
+//            cnt = cnt - getValue(t).length();
+//        } catch (NullPointerException e) {
+//            cnt = cnt - 4;
+//        }
+//
+//
+//        String blank = "";
+//
+//        for (int i = 0; i < cnt; i++) {
+//            blank += " ";
+//        }
+//
+//        System.out.printf("%s%s |", blank, getValue(t));
+//    }
 
 
     void check_non_null_cnt(ColumnImpl c) {
@@ -88,8 +89,7 @@ class ColumnImpl implements Column {
                 if (!c.datas.get(i).equals(null)) {
                     c.Non_Null_cnt += 1;
                 }
-            }
-            catch(NullPointerException e){
+            } catch (NullPointerException e) {
                 continue;
             }
         }
@@ -97,11 +97,11 @@ class ColumnImpl implements Column {
 
     }
 
-    void make_head_column(TableImpl ta) {
-        for (int i = 0; i < ta.temp_data.get(0).size(); i++) {
-            ta.Head.datas.add(ta.temp_data.get(0).get(i));
-        }
-    }
+//    void make_head_column(TableImpl ta) {
+//        for (int i = 0; i < ta.temp_data.get(0).size(); i++) {
+//            ta.Head.datas.add(ta.temp_data.get(0).get(i));
+//        }
+//    }
 
     String check_type(ColumnImpl column) {
         String type = "int";
@@ -116,7 +116,7 @@ class ColumnImpl implements Column {
                     try {
                         Double.parseDouble(datas.get(i));
                     } catch (NullPointerException n) {
-
+                        continue;
                     }
                 }
                 type = "double";
@@ -145,7 +145,7 @@ class ColumnImpl implements Column {
 
     @Override
     public void setValue(int index, String value) {
-        this.datas.set(index,value);
+        this.datas.set(index, value);
 
     }
 
@@ -172,7 +172,18 @@ class ColumnImpl implements Column {
 
     @Override
     public long getNullCount() {
-        return 0;
+
+        int count = 0;
+
+        for (int i = 0; i < this.datas.size(); i++) {
+
+            try {
+                this.datas.get(i).equals(null);
+            } catch (NullPointerException e) {
+                count++;
+            }
+        }
+        return count;
     }
 
     @Override
@@ -192,8 +203,32 @@ class ColumnImpl implements Column {
 
     @Override
     public double getMean() {
-        return 0;
+        double mean_value = 0;
+        double count = 0;
+
+        for (int i = 0; i < datas.size(); i++) {
+            try {
+                if (datas.get(i).equals(null) == false)
+                    count++;
+            }
+            catch (NullPointerException e) {
+            }
+        }
+
+        for (int i = 0; i < datas.size(); i++) {
+            try {
+                mean_value = mean_value+ Double.parseDouble(datas.get(i));
+            }
+            catch (NullPointerException e) {
+
+            }
+        }
+        mean_value = mean_value / count;
+
+        return mean_value;
+
     }
+
 
     @Override
     public double getStd() {
@@ -217,6 +252,25 @@ class ColumnImpl implements Column {
 
     @Override
     public boolean fillNullWithMean() {
+        String Dtype = Data_Type;
+
+        if (Dtype.equals("String") == false) {
+            double mean_value = getMean();
+
+            for (int i = 0; i < this.datas.size(); i++) {
+
+                try {
+                    if (this.datas.get(i).equals(null)) {//널이라면
+
+                        datas.set(i, Double.toString(mean_value));//평균값 넣기.
+                    }
+                } catch (NullPointerException e) {
+                    datas.set(i, Double.toString(mean_value));
+                }
+            }
+
+            return true;
+        }
         return false;
     }
 
@@ -239,4 +293,37 @@ class ColumnImpl implements Column {
     public boolean factorize() {
         return false;
     }
+
+
+    void Sort_Int(int byIndexOfColumn, boolean isAscending, boolean isNullFirst) {
+
+
+    }
+//
+//    List<Integer> Sort_Dou(int byIndexOfColumn, boolean isAscending, boolean isNullFirst) {
+//
+//        System.out.println("Start Sort_Dou");
+//
+//        //int [] index_arr = new int[this.datas.size()];
+//
+//        ColumnImpl c = new ColumnImpl();
+//
+//        List<Integer> index_list = new ArrayList<Integer>();
+//        List<Integer> null_list = new ArrayList<Integer>();
+//        List<Integer> result_list = new ArrayList<Integer>();
+//        List<Double> dou_list = new ArrayList<>();
+//
+//
+//        if (isAscending == true) {
+//
+//            try{
+//                Collections.sort(Double this.datas.get(byIndexOfColumn));
+//                System.out.println(this.datas);
+//            }
+//            catch (NullPointerException e){
+//
+//            }
+//        }
+//        return result_list;
+//    }
 }
