@@ -119,16 +119,16 @@ public class Test {
 //        System.out.println("(after) null count: " + nullCount);
 
 //        17) (가능한 컬럼에 대하여) table 컬럼마다 평균 0, 표준편차 1로 표준화한다 (원본 테이블 값 변경)
-            System.out.println("****************************** before standardization ******************************");
-            table.print();
-            System.out.println("table.standardize() = " + table.standardize());
-            System.out.println("****************************** after standardization ******************************");
-            table.print();
-            table.getStats().print();
+//            System.out.println("****************************** before standardization ******************************");
+//            table.print();
+//            System.out.println("table.standardize() = " + table.standardize());
+//            System.out.println("****************************** after standardization ******************************");
+//            table.print();
+//            table.getStats().print();
 
 
 //        18) (가능한 컬럼에 대하여) table 컬럼마다 min 0, max 1로 정규화한다 (원본 테이블 값 변경)
-//        Syvem.out.println("****************************** before normalization ******************************");
+//        System.out.println("****************************** before normalization ******************************");
 //        table.print();
 //        System.out.println("table.normalize() = " + table.normalize());
 //        System.out.println("****************************** after normalization ******************************");
@@ -136,11 +136,11 @@ public class Test {
 //        table.getStats().print();
 
 //        19) (가능한 컬럼에 대하여) table 컬럼마다 값이 {0, 1}로 구성되게 한다. (원본 테이블 값 변경)
-//        System.out.println("****************************** before factorizing ******************************");
-//        table.print();
-//        System.out.println("table.factorize() = " + table.factorize());
-//        System.out.println("****************************** after factorizing ******************************");
-//        table.print();
+            System.out.println("****************************** before factorizing ******************************");
+            table.print();
+            System.out.println("table.factorize() = " + table.factorize());
+            System.out.println("****************************** after factorizing ******************************");
+            table.print();
 
 //        20) 조건식을 만족하는 행을 얻는다.
 //        table.selectRowsBy("Name", (String x) -> x.contains("Lee")).print();

@@ -1,9 +1,7 @@
 package csv;
 
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.function.Predicate;
 
 import static java.lang.Float.NaN;
@@ -168,11 +166,17 @@ class TableImpl implements Table {
             count++;
             try {
 
+               double d = Double.parseDouble(c.datas.get(i));
+
                 if (c.datas.get(i).equals(null)) {
                     count--;
                 }
 
-            } catch (NullPointerException e) {
+
+            } catch (NumberFormatException e1 ){
+                count--;
+            }
+            catch (NullPointerException e) {
                 count--;
                 continue;
             }
@@ -806,12 +810,147 @@ class TableImpl implements Table {
 
     @Override
     public boolean normalize() {
-        return false;
+
+        List<Integer> temp_head_index = new ArrayList();
+        int null_count = 0;
+
+        int string_count = 0;
+        int double_count = 0;
+        // 헤더 만들기
+
+        for (int c = 0; c < this.col_zip.size(); c++) {
+            string_count = 0;
+            double_count = 0;
+
+            for (int k = 0; k < this.col_zip.get(c).datas.size(); k++) {
+
+                try {
+
+                    Double d = Double.parseDouble(this.col_zip.get(c).datas.get(k));
+                    double_count++;
+
+
+                } catch (NumberFormatException e1) {
+                    continue;
+                } catch (NullPointerException e) {
+
+                }
+            }
+
+
+            if (double_count>0  ){
+                temp_head_index.add(c);
+            }
+
+            else{
+
+            }
+
+        }
+
+
+
+
+
+
+
+
+        /// 시작
+
+
+        System.out.println(temp_head_index);
+        boolean count_cal = false;
+
+        ColumnImpl c = new ColumnImpl();
+
+        for (int j = 0; j < temp_head_index.size(); j++) {
+
+
+
+            double min = this.col_zip.get(temp_head_index.get(j)).getNumericMin() ;
+            double max = this.col_zip.get(temp_head_index.get(j)).getNumericMax();
+            for (int i = 0; i < this.col_zip.get(temp_head_index.get(j)).datas.size(); i++) {
+                try {
+                    try {
+                        double number = Double.parseDouble(this.col_zip.get(temp_head_index.get(j)).datas.get(i));
+
+                        number = Math.round(number * 1000000.0)/1000000.0;
+                        number = (number - min) / (max-min);
+                        number = Math.round(number * 1000000.0)/1000000.0;
+
+                        this.col_zip.get(temp_head_index.get(j)).datas.set(i, Double.toString(number));
+
+                    } catch (NumberFormatException e1) {
+                        continue;
+                    }
+
+                } catch (NullPointerException e) {
+                    continue;
+
+                }
+                count_cal = true;
+            }
+
+
+        }
+
+
+        System.out.println(this.col_zip.get(0).datas);
+
+        return count_cal ? true : false;
+
     }
 
     @Override
     public boolean factorize() {
-        return false;
+
+        Boolean re_count = false;
+
+
+
+
+        for(int i =0 ; i<this.col_zip.size();i++){
+
+            HashSet<String> set = new HashSet<>();
+
+            for(int j = 0 ; j<this.col_zip.get(i).datas.size();j++){
+
+                set.add(this.col_zip.get(i).datas.get(j));
+
+            }
+
+            if(set.size()==2){
+
+
+                String temp = "";
+                temp = this.col_zip.get(i).datas.get(0);
+               for( int k = 0; k<this.col_zip.get(i).datas.size(); k++){
+
+                   if(!temp.equals(this.col_zip.get(i).datas.get(k)))
+                   {
+                       this.col_zip.get(i).datas.set(k,"1");
+
+                   }
+                   else{
+                       this.col_zip.get(i).datas.set(k,"0");
+                   }
+
+
+                   if (re_count == false){
+                      re_count = true;
+                   }
+
+               }
+
+            }
+
+        }
+
+
+
+
+
+        return re_count ? true:false;
     }
 }
 
