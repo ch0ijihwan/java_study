@@ -129,7 +129,6 @@ public class CSVs {
 
             }
 
-            System.out.println(c.datas);
 
             c.Data_Type = c.check_type(c);
             c.check_non_null_cnt(c);

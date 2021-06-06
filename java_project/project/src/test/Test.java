@@ -23,8 +23,8 @@ public class Test {
 //          table.print();
 
 //        4) 테이블의 컬럼별 통계량을 출력한다.
-//            table.getStats().print();
-//               table.getStats();
+            table.getStats().print();
+               table.getStats();
 
 //        5) 처음 5줄 출력 (새 테이블)
 //        table.head().print();
@@ -97,15 +97,15 @@ public class Test {
 //        System.out.println("identity test for shuffle(): " + (!table.equals(anotherTable) ? "Fail" : "Pass"));
 
 //        15) null을 그 컬럼의 mean으로 치환 (원본 테이블 값 변경)
-        table.print();
-        int nullCount = 0;
-        for (int i = 0; i < table.getColumnCount(); i++) nullCount += table.getColumn(i).getNullCount();
-        System.out.println("(before) null count: " + nullCount);
-        System.out.println("(result) table.fillNullWithMean(): " + table.fillNullWithMean());
-        table.print();
-        nullCount = 0;
-        for (int i = 0; i < table.getColumnCount(); i++) nullCount += table.getColumn(i).getNullCount();
-        System.out.println("(after) null count: " + nullCount);
+//        table.print();
+//        int nullCount = 0;
+//        for (int i = 0; i < table.getColumnCount(); i++) nullCount += table.getColumn(i).getNullCount();
+//        System.out.println("(before) null count: " + nullCount);
+//        System.out.println("(result) table.fillNullWithMean(): " + table.fillNullWithMean());
+//        table.print();
+//        nullCount = 0;
+//        for (int i = 0; i < table.getColumnCount(); i++) nullCount += table.getColumn(i).getNullCount();
+//        System.out.println("(after) null count: " + nullCount);
 
 //        16) null을 0으로 치환 (원본 테이블 값 변경)
 //        table.print();
@@ -119,15 +119,16 @@ public class Test {
 //        System.out.println("(after) null count: " + nullCount);
 
 //        17) (가능한 컬럼에 대하여) table 컬럼마다 평균 0, 표준편차 1로 표준화한다 (원본 테이블 값 변경)
-//        System.out.println("****************************** before standardization ******************************");
-//        table.print();
-//        System.out.println("table.standardize() = " + table.standardize());
-//        System.out.println("****************************** after standardization ******************************");
-//        table.print();
-//        table.getStats().print();
+            System.out.println("****************************** before standardization ******************************");
+            table.print();
+            System.out.println("table.standardize() = " + table.standardize());
+            System.out.println("****************************** after standardization ******************************");
+            table.print();
+            table.getStats().print();
+
 
 //        18) (가능한 컬럼에 대하여) table 컬럼마다 min 0, max 1로 정규화한다 (원본 테이블 값 변경)
-//        System.out.println("****************************** before normalization ******************************");
+//        Syvem.out.println("****************************** before normalization ******************************");
 //        table.print();
 //        System.out.println("table.normalize() = " + table.normalize());
 //        System.out.println("****************************** after normalization ******************************");

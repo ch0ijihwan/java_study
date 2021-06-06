@@ -161,11 +161,117 @@ class TableImpl implements Table {
 
     }
 
+    int count_cell(ColumnImpl c) {
+        int count = 0;
+
+        for (int i = 0; i < c.datas.size(); i++) {
+            count++;
+            try {
+
+                if (c.datas.get(i).equals(null)) {
+                    count--;
+                }
+
+            } catch (NullPointerException e) {
+                count--;
+                continue;
+            }
+        }
+
+
+        return count;
+    }
+
+    boolean all_String_check(String a) {
+        try {
+            Integer I = Integer.parseInt(a);
+            Double D = Double.parseDouble(a);
+            return false;
+        } catch (NumberFormatException e) {
+            return true;
+        }
+
+    }
 
     @Override
     public Table getStats() {
+        TableImpl n_table = new TableImpl();
 
-        return null;
+        List<Integer> temp_head_index = new ArrayList();
+        int null_count = 0;
+
+        int string_count = 0;
+
+        //틀 생성
+        n_table.Head.header.add("          ");
+
+        ColumnImpl base = new ColumnImpl();
+        base.datas.add("count");
+        base.datas.add("Mean");
+        base.datas.add("std");
+        base.datas.add("min");
+        base.datas.add("25%");
+        base.datas.add("50%");
+        base.datas.add("75%");
+        base.datas.add("max");
+
+        n_table.col_zip.add(base);
+
+        int double_count = 0;
+        // 헤더 만들기
+
+        for (int c = 0; c < this.col_zip.size(); c++) {
+            string_count = 0;
+            double_count = 0;
+
+            for (int k = 0; k < this.col_zip.get(c).datas.size(); k++) {
+
+                try {
+
+                    Double d = Double.parseDouble(this.col_zip.get(c).datas.get(k));
+                    double_count++;
+
+
+                } catch (NumberFormatException e1) {
+
+                    string_count++;
+                    continue;
+                } catch (NullPointerException e) {
+
+                }
+            }
+
+
+            if (double_count>0){
+                temp_head_index.add(c);
+                n_table.Head.header.add(this.Head.header.get(c));
+            }
+
+            else{
+
+            }
+
+        }
+
+
+
+        for (int i = 0; i < n_table.Head.header.size() - 1; i++) {
+            ColumnImpl n_col = new ColumnImpl();
+            n_col.datas.add(String.valueOf(count_cell(this.col_zip.get(temp_head_index.get(i)))));
+            n_col.datas.add(String.valueOf(this.col_zip.get(temp_head_index.get(i)).getMean()));
+            n_col.datas.add(String.valueOf(this.col_zip.get(temp_head_index.get(i)).getStd()));
+            n_col.datas.add(String.valueOf(this.col_zip.get(temp_head_index.get(i)).getNumericMin()));
+            n_col.datas.add(String.valueOf(this.col_zip.get(temp_head_index.get(i)).getQ1()));
+            n_col.datas.add(String.valueOf(this.col_zip.get(temp_head_index.get(i)).getMedian()));
+            n_col.datas.add(String.valueOf(this.col_zip.get(temp_head_index.get(i)).getQ3()));
+            n_col.datas.add(String.valueOf(this.col_zip.get(temp_head_index.get(i)).getNumericMax()));
+            n_table.col_zip.add(n_col);
+        }
+
+        System.out.println(n_table.col_zip);
+        return n_table;
+
+
     }
 
     @Override
@@ -561,12 +667,12 @@ class TableImpl implements Table {
 
         Boolean[] check_index = new Boolean[col_zip.size()];
 
-        for(int i=0; i< this.col_zip.size(); i++){
+        for (int i = 0; i < this.col_zip.size(); i++) {
             check_index[i] = this.col_zip.get(i).fillNullWithMean();
         }
 
-        for(int i=0; i<check_index.length; i++){
-            if(check_index[i] == true){
+        for (int i = 0; i < check_index.length; i++) {
+            if (check_index[i] == true) {
                 return true;
             }
         }
@@ -609,7 +715,93 @@ class TableImpl implements Table {
 
     @Override
     public boolean standardize() {
-        return false;
+        List<Integer> temp_head_index = new ArrayList();
+        int null_count = 0;
+
+        int string_count = 0;
+        int double_count = 0;
+        // 헤더 만들기
+
+        for (int c = 0; c < this.col_zip.size(); c++) {
+            string_count = 0;
+            double_count = 0;
+
+            for (int k = 0; k < this.col_zip.get(c).datas.size(); k++) {
+
+                try {
+
+                    Double d = Double.parseDouble(this.col_zip.get(c).datas.get(k));
+                    double_count++;
+
+
+                } catch (NumberFormatException e1) {
+                    continue;
+                } catch (NullPointerException e) {
+
+                }
+            }
+
+
+            if (double_count>0  ){
+                temp_head_index.add(c);
+            }
+
+            else{
+
+            }
+
+        }
+
+
+
+
+
+
+
+
+        /// 시작
+
+
+        System.out.println(temp_head_index);
+        boolean count_cal = false;
+
+        ColumnImpl c = new ColumnImpl();
+
+        for (int j = 0; j < temp_head_index.size(); j++) {
+
+
+
+                double mean = this.col_zip.get(temp_head_index.get(j)).getMean() ;
+                double std = this.col_zip.get(temp_head_index.get(j)).getStd();
+                for (int i = 0; i < this.col_zip.get(temp_head_index.get(j)).datas.size(); i++) {
+                    try {
+                        try {
+                            double number = Double.parseDouble(this.col_zip.get(temp_head_index.get(j)).datas.get(i));
+
+                            number = Math.round(number * 1000000.0)/1000000.0;
+                            number = (number - mean) / std;
+                            number = Math.round(number * 1000000.0)/1000000.0;
+
+                            this.col_zip.get(temp_head_index.get(j)).datas.set(i, Double.toString(number));
+
+                        } catch (NumberFormatException e1) {
+                            continue;
+                        }
+
+                    } catch (NullPointerException e) {
+                        continue;
+
+                    }
+                    count_cal = true;
+                }
+
+
+            }
+
+
+        System.out.println(this.col_zip.get(0).datas);
+
+        return count_cal ? true : false;
     }
 
     @Override
@@ -622,3 +814,4 @@ class TableImpl implements Table {
         return false;
     }
 }
+

@@ -191,15 +191,69 @@ class ColumnImpl implements Column {
         return 0;
     }
 
+
+    Boolean select_Integer(){
+
+        for(int i = 0; i<datas.size(); i++){
+
+            try {
+                Integer.parseInt( datas.get(i) );
+            }catch (NumberFormatException e ){
+                return  true;
+            }
+
+        }
+
+        return  false;
+    }
+
     @Override
     public double getNumericMin() {
-        return 0;
+
+
+        double min_Value = 999999999;
+
+
+        for (int i = 0; i < datas.size(); i++) {
+            try {
+                Double D = Double.parseDouble(datas.get(i));
+                if (min_Value > D) {
+                    min_Value = D;
+                }
+            } catch (NullPointerException e) {
+                continue;
+            } catch (NumberFormatException e1) {
+
+            }
+        }
+
+
+        return min_Value;
     }
 
     @Override
     public double getNumericMax() {
-        return 0;
+        double max_Value = 0;
+
+
+        for (int i = 0; i < datas.size(); i++) {
+            try {
+                Double D = Double.parseDouble(datas.get(i));
+                if (max_Value < D)
+                    max_Value = D;
+            } catch (NullPointerException e) {
+                continue;
+            } catch (NumberFormatException e1) {
+
+            }
+        }
+
+
+        return max_Value;
+
+
     }
+
 
     @Override
     public double getMean() {
@@ -210,44 +264,124 @@ class ColumnImpl implements Column {
             try {
                 if (datas.get(i).equals(null) == false)
                     count++;
-            }
-            catch (NullPointerException e) {
+            } catch (NullPointerException e) {
             }
         }
 
         for (int i = 0; i < datas.size(); i++) {
             try {
-                mean_value = mean_value+ Double.parseDouble(datas.get(i));
-            }
-            catch (NullPointerException e) {
+                mean_value = mean_value + Math.round(Double.parseDouble(datas.get(i))*1000000.0)/1000000.0;
+            } catch (NullPointerException e) {
+
+            } catch (NumberFormatException e1) {
 
             }
         }
         mean_value = mean_value / count;
 
-        return mean_value;
+        return Math.round( mean_value*1000000.0)/1000000.0;
 
     }
 
 
     @Override
     public double getStd() {
-        return 0;
+        double mean = getMean();
+        mean = Math.round(mean * 1000000.0)/1000000.0;
+        double dev = 0;
+
+        for (int i = 0; i < datas.size(); i++) {
+            try {
+                Double num = Double.parseDouble(datas.get(i)) - mean;
+
+
+                dev =  dev + Math.pow(num, 2);
+                dev = Math.round(dev * 1000000.0)/1000000.0;
+
+            } catch (NullPointerException e) {
+                continue;
+            } catch (NumberFormatException e1) {
+                continue;
+            }
+        }
+
+        dev =  dev / Double.parseDouble(String.valueOf(datas.size()));
+
+        dev = Math.round( Math.sqrt(dev) * 1000000.0)/1000000.0;
+
+        return Math.round(dev*1000000.0)/1000000.0;
+
     }
 
     @Override
     public double getQ1() {
-        return 0;
+
+        List<Double> tmp_list = new ArrayList<>();
+
+        for (int i = 0; i < datas.size(); i++) {
+            try {
+                Double d = Double.parseDouble(datas.get(i));
+                tmp_list.add(d);
+            } catch (NullPointerException e) {
+                continue;
+
+            } catch (NumberFormatException e1) {
+                continue;
+            }
+        }
+
+        Collections.sort(tmp_list);
+
+
+
+
+        return  tmp_list.get(tmp_list.size() / 4 );
     }
 
     @Override
     public double getMedian() {
-        return 0;
+
+
+        List<Double> tmp_list = new ArrayList<>();
+
+        for (int i = 0; i < datas.size(); i++) {
+            try {
+                Double d = Double.parseDouble(datas.get(i));
+                tmp_list.add(d);
+            } catch (NullPointerException e) {
+                continue;
+
+            } catch (NumberFormatException e1) {
+                continue;
+            }
+        }
+
+        Collections.sort(tmp_list);
+
+        return tmp_list.get(tmp_list.size() / 2);
+
     }
 
     @Override
     public double getQ3() {
-        return 0;
+
+        List<Double> tmp_list = new ArrayList<>();
+
+        for (int i = 0; i < datas.size(); i++) {
+            try {
+                Double d = Double.parseDouble(datas.get(i));
+                tmp_list.add(d);
+            } catch (NullPointerException e) {
+                continue;
+
+            } catch (NumberFormatException e1) {
+                continue;
+            }
+        }
+
+        Collections.sort(tmp_list);
+
+        return tmp_list.get((tmp_list.size() / 2) + (tmp_list.size() / 4));
     }
 
     @Override
@@ -295,35 +429,4 @@ class ColumnImpl implements Column {
     }
 
 
-    void Sort_Int(int byIndexOfColumn, boolean isAscending, boolean isNullFirst) {
-
-
-    }
-//
-//    List<Integer> Sort_Dou(int byIndexOfColumn, boolean isAscending, boolean isNullFirst) {
-//
-//        System.out.println("Start Sort_Dou");
-//
-//        //int [] index_arr = new int[this.datas.size()];
-//
-//        ColumnImpl c = new ColumnImpl();
-//
-//        List<Integer> index_list = new ArrayList<Integer>();
-//        List<Integer> null_list = new ArrayList<Integer>();
-//        List<Integer> result_list = new ArrayList<Integer>();
-//        List<Double> dou_list = new ArrayList<>();
-//
-//
-//        if (isAscending == true) {
-//
-//            try{
-//                Collections.sort(Double this.datas.get(byIndexOfColumn));
-//                System.out.println(this.datas);
-//            }
-//            catch (NullPointerException e){
-//
-//            }
-//        }
-//        return result_list;
-//    }
 }
