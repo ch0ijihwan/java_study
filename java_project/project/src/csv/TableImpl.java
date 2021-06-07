@@ -166,17 +166,16 @@ class TableImpl implements Table {
             count++;
             try {
 
-               double d = Double.parseDouble(c.datas.get(i));
+                double d = Double.parseDouble(c.datas.get(i));
 
                 if (c.datas.get(i).equals(null)) {
                     count--;
                 }
 
 
-            } catch (NumberFormatException e1 ){
+            } catch (NumberFormatException e1) {
                 count--;
-            }
-            catch (NullPointerException e) {
+            } catch (NullPointerException e) {
                 count--;
                 continue;
             }
@@ -246,17 +245,14 @@ class TableImpl implements Table {
             }
 
 
-            if (double_count>0){
+            if (double_count > 0) {
                 temp_head_index.add(c);
                 n_table.Head.header.add(this.Head.header.get(c));
-            }
-
-            else{
+            } else {
 
             }
 
         }
-
 
 
         for (int i = 0; i < n_table.Head.header.size() - 1; i++) {
@@ -509,7 +505,80 @@ class TableImpl implements Table {
 
     @Override
     public <T> Table selectRowsBy(String columnName, Predicate<T> predicate) {
-        return null;
+
+
+
+        List<Integer> list = new ArrayList<>();
+
+        //(String x) -> x.contains("Lee")  = predicate
+        int index = 0;
+        String temp = "";
+
+
+        System.out.println(this.Head.header);
+
+
+        for (int k = 0; k < this.Head.header.size(); k++) {
+
+            if (this.Head.header.get(k).equals(columnName)) {
+                index = k;
+            }
+        }
+
+        System.out.println("index = " + index);
+
+
+        for (int j = 0; j < this.col_zip.get(index).datas.size(); j++) {
+
+            if (this.col_zip.get(index).check_type(this.col_zip.get(index)).equals("String")) {
+
+
+                T t = (T) this.col_zip.get(index).datas.get(j);
+
+
+                if (predicate.test(t)) {
+                    list.add(j);
+
+                }
+
+            }else if (this.col_zip.get(index).check_type(this.col_zip.get(index)).equals("double")){
+
+
+                try {
+                    Double i = Double.parseDouble( this.col_zip.get(index).datas.get(j));
+                    T t = (T) i ;
+
+
+                    if (predicate.test(t)) {
+
+
+                        list.add(j);
+
+                    }
+
+                }catch (NumberFormatException e){
+                    continue;
+                }
+
+
+
+
+            }
+
+
+
+        }
+
+        int[] arr = new int[list.size()];
+
+        for (int i = 0; i < list.size(); i++) {
+            arr[i] = list.get(i);
+        }
+
+        System.out.println(list);
+
+        int [] result = arr;
+        return selectRowsAt(arr);
     }
 
 //    void Sort_Dou(int byIndexOfColumn, boolean isAscending, boolean isNullFirst) {
@@ -746,21 +815,13 @@ class TableImpl implements Table {
             }
 
 
-            if (double_count>0  ){
+            if (double_count > 0) {
                 temp_head_index.add(c);
-            }
-
-            else{
+            } else {
 
             }
 
         }
-
-
-
-
-
-
 
 
         /// 시작
@@ -774,33 +835,32 @@ class TableImpl implements Table {
         for (int j = 0; j < temp_head_index.size(); j++) {
 
 
-
-                double mean = this.col_zip.get(temp_head_index.get(j)).getMean() ;
-                double std = this.col_zip.get(temp_head_index.get(j)).getStd();
-                for (int i = 0; i < this.col_zip.get(temp_head_index.get(j)).datas.size(); i++) {
+            double mean = this.col_zip.get(temp_head_index.get(j)).getMean();
+            double std = this.col_zip.get(temp_head_index.get(j)).getStd();
+            for (int i = 0; i < this.col_zip.get(temp_head_index.get(j)).datas.size(); i++) {
+                try {
                     try {
-                        try {
-                            double number = Double.parseDouble(this.col_zip.get(temp_head_index.get(j)).datas.get(i));
+                        double number = Double.parseDouble(this.col_zip.get(temp_head_index.get(j)).datas.get(i));
 
-                            number = Math.round(number * 1000000.0)/1000000.0;
-                            number = (number - mean) / std;
-                            number = Math.round(number * 1000000.0)/1000000.0;
+                        number = Math.round(number * 1000000.0) / 1000000.0;
+                        number = (number - mean) / std;
+                        number = Math.round(number * 1000000.0) / 1000000.0;
 
-                            this.col_zip.get(temp_head_index.get(j)).datas.set(i, Double.toString(number));
+                        this.col_zip.get(temp_head_index.get(j)).datas.set(i, Double.toString(number));
 
-                        } catch (NumberFormatException e1) {
-                            continue;
-                        }
-
-                    } catch (NullPointerException e) {
+                    } catch (NumberFormatException e1) {
                         continue;
-
                     }
-                    count_cal = true;
+
+                } catch (NullPointerException e) {
+                    continue;
+
                 }
-
-
+                count_cal = true;
             }
+
+
+        }
 
 
         System.out.println(this.col_zip.get(0).datas);
@@ -819,6 +879,8 @@ class TableImpl implements Table {
         // 헤더 만들기
 
         for (int c = 0; c < this.col_zip.size(); c++) {
+
+
             string_count = 0;
             double_count = 0;
 
@@ -838,21 +900,13 @@ class TableImpl implements Table {
             }
 
 
-            if (double_count>0  ){
+            if (double_count > 0) {
                 temp_head_index.add(c);
-            }
-
-            else{
+            } else {
 
             }
 
         }
-
-
-
-
-
-
 
 
         /// 시작
@@ -866,17 +920,16 @@ class TableImpl implements Table {
         for (int j = 0; j < temp_head_index.size(); j++) {
 
 
-
-            double min = this.col_zip.get(temp_head_index.get(j)).getNumericMin() ;
+            double min = this.col_zip.get(temp_head_index.get(j)).getNumericMin();
             double max = this.col_zip.get(temp_head_index.get(j)).getNumericMax();
             for (int i = 0; i < this.col_zip.get(temp_head_index.get(j)).datas.size(); i++) {
                 try {
                     try {
                         double number = Double.parseDouble(this.col_zip.get(temp_head_index.get(j)).datas.get(i));
 
-                        number = Math.round(number * 1000000.0)/1000000.0;
-                        number = (number - min) / (max-min);
-                        number = Math.round(number * 1000000.0)/1000000.0;
+                        number = Math.round(number * 1000000.0) / 1000000.0;
+                        number = (number - min) / (max - min);
+                        number = Math.round(number * 100.0) / 100.0;
 
                         this.col_zip.get(temp_head_index.get(j)).datas.set(i, Double.toString(number));
 
@@ -907,50 +960,43 @@ class TableImpl implements Table {
         Boolean re_count = false;
 
 
-
-
-        for(int i =0 ; i<this.col_zip.size();i++){
+        for (int i = 0; i < this.col_zip.size(); i++) {
 
             HashSet<String> set = new HashSet<>();
 
-            for(int j = 0 ; j<this.col_zip.get(i).datas.size();j++){
+            for (int j = 0; j < this.col_zip.get(i).datas.size(); j++) {
 
                 set.add(this.col_zip.get(i).datas.get(j));
 
             }
 
-            if(set.size()==2){
+            if (set.size() == 2) {
 
 
                 String temp = "";
                 temp = this.col_zip.get(i).datas.get(0);
-               for( int k = 0; k<this.col_zip.get(i).datas.size(); k++){
+                for (int k = 0; k < this.col_zip.get(i).datas.size(); k++) {
 
-                   if(!temp.equals(this.col_zip.get(i).datas.get(k)))
-                   {
-                       this.col_zip.get(i).datas.set(k,"1");
+                    if (!temp.equals(this.col_zip.get(i).datas.get(k))) {
+                        this.col_zip.get(i).datas.set(k, "1");
 
-                   }
-                   else{
-                       this.col_zip.get(i).datas.set(k,"0");
-                   }
+                    } else {
+                        this.col_zip.get(i).datas.set(k, "0");
+                    }
 
 
-                   if (re_count == false){
-                      re_count = true;
-                   }
+                    if (re_count == false) {
+                        re_count = true;
+                    }
 
-               }
+                }
 
             }
 
         }
 
 
-
-
-
-        return re_count ? true:false;
+        return re_count ? true : false;
     }
 }
 

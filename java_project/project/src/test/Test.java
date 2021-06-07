@@ -17,14 +17,14 @@ public class Test {
 
 
 //        2) TableImple의 toString()을 override 한다. //toString은 object의 메소드임. 오버라이드 가능. //file 객체라면  자신의 해당 경로값 리턴.
-//          System.out.println(table);
+          System.out.println(table);
 
 //        3) 테이블을 화면에 출력한다.
 //          table.print();
 
 //        4) 테이블의 컬럼별 통계량을 출력한다.
-            table.getStats().print();
-               table.getStats();
+//            table.getStats().print();
+//               table.getStats();
 
 //        5) 처음 5줄 출력 (새 테이블)
 //        table.head().print();
@@ -136,15 +136,15 @@ public class Test {
 //        table.getStats().print();
 
 //        19) (가능한 컬럼에 대하여) table 컬럼마다 값이 {0, 1}로 구성되게 한다. (원본 테이블 값 변경)
-            System.out.println("****************************** before factorizing ******************************");
-            table.print();
-            System.out.println("table.factorize() = " + table.factorize());
-            System.out.println("****************************** after factorizing ******************************");
-            table.print();
+//            System.out.println("****************************** before factorizing ******************************");
+//            table.print();
+//            System.out.println("table.factorize() = " + table.factorize());
+//            System.out.println("****************************** after factorizing ******************************");
+//            table.print();
 
 //        20) 조건식을 만족하는 행을 얻는다.
-//        table.selectRowsBy("Name", (String x) -> x.contains("Lee")).print();
-//        table.selectRowsBy("Age", (Integer x) -> x < 20).print();
+        table.selectRowsBy("Name", (String x) -> x.contains("Lee")).print();
+//          table.selectRowsBy("Age", (Integer x) -> x < 20).print();
 //        table.selectRowsBy("Fare", (Double x) -> x < 20).print();
 //        table.selectRowsBy("Cabin", (String x) -> x.length() < 3).print();
 //        table.selectRowsBy("Age", (Object x) -> x == null).print();

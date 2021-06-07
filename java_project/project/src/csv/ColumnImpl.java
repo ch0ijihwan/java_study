@@ -287,7 +287,7 @@ class ColumnImpl implements Column {
     @Override
     public double getStd() {
         double mean = getMean();
-        mean = Math.round(mean * 1000000.0)/1000000.0;
+
         double dev = 0;
 
         for (int i = 0; i < datas.size(); i++) {
@@ -295,8 +295,7 @@ class ColumnImpl implements Column {
                 Double num = Double.parseDouble(datas.get(i)) - mean;
 
 
-                dev =  dev + Math.pow(num, 2);
-                dev = Math.round(dev * 1000000.0)/1000000.0;
+                dev =  dev + num * num;
 
             } catch (NullPointerException e) {
                 continue;
@@ -307,7 +306,7 @@ class ColumnImpl implements Column {
 
         dev =  dev / Double.parseDouble(String.valueOf(datas.size()));
 
-        dev = Math.round( Math.sqrt(dev) * 1000000.0)/1000000.0;
+        dev = Math.sqrt(dev);
 
         return Math.round(dev*1000000.0)/1000000.0;
 
