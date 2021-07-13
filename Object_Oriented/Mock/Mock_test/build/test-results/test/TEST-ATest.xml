@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ATest" tests="3" skipped="0" failures="0" errors="0" timestamp="2021-07-13T02:54:30" hostname="choejihcBookPro" time="0.075">
+  <properties/>
+  <testcase name="[1] 12, false" classname="ATest" time="0.067"/>
+  <testcase name="[2] 7, false" classname="ATest" time="0.001"/>
+  <testcase name="[3] 26, true" classname="ATest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
